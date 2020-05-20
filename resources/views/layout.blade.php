@@ -7,8 +7,7 @@
 </head>
 <body>
     <a href="/">HOME</a>
-    <a href="/php">PHP Learning</a>
-    <a href="/js">JS Learning</a>
+    <a href="/receipe">Receipe</a>
     @yield('content')
 </body>
 </html>

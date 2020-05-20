@@ -13,7 +13,7 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('/php', 'PhpController@index');
+Route::get('/receipe', 'ReceipeController@index');
 
-Route::get('/js', 'JsController@index');
+
 
