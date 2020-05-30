@@ -13,7 +13,9 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('/receipe', 'ReceipeController@index');
+Route::resource('receipe', 'ReceipeController');
+
+
 
 
 
