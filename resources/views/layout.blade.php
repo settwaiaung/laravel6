@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
 </head>
 <body class="container">
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
         <a class="navbar-brand" href="/receipe">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

@@ -36,11 +36,11 @@ class ReceipeController extends Controller
      */
     public function store(Request $request)
     {
-        $receipe = new Receipe;
-        $receipe->name = $request->name;
-        $receipe->ingredients = $request->ingredients;
-        $receipe->category = $request->category;
-        $receipe->save();
+        Receipe::create(request()->validate([
+            'name' => 'required',
+            'ingredients' => 'required',
+            'category' => 'required',
+        ]));
 
         return redirect('receipe');
     }
@@ -76,13 +76,13 @@ class ReceipeController extends Controller
      */
     public function update(Request $request, Receipe $receipe)
     {
-        $receipe = Receipe::find($receipe->id);
-        $receipe->name = $request->name;
-        $receipe->ingredients = $request->ingredients;
-        $receipe->category = $request->category;
-        $receipe->save();
+        $receipe->update(request()->validate([
+            'name' => 'required',
+            'ingredients' => 'required',
+            'category' => 'required',
+        ]));
 
-        return redirect('receipe/'.$receipe->id);
+        return redirect('/receipe/'.$receipe->id);
     }
 
     /**

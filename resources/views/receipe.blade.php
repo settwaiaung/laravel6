@@ -15,7 +15,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">
-                    Ingredietns: {{$receipe->ingredients}}
+                    Ingredients: {{$receipe->ingredients}}
                 </h5>
                 <p class="card-text">Category: {{$receipe->category}}</p>
             </div>
