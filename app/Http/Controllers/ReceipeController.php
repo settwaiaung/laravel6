@@ -3,54 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Receipe;
+use App\Category;
 use Illuminate\Http\Request;
 
 class ReceipeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $receipes = Receipe::latest()->get();
         return view('receipe', compact('receipes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('create');
+        $categories = Category::all();
+        return view('create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        //dd($request->all());
         Receipe::create(request()->validate([
             'name' => 'required',
             'ingredients' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
         ]));
 
         return redirect('receipe');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Receipe  $receipe
-     * @return \Illuminate\Http\Response
-     */
     public function show(Receipe $receipe)
     {
         return view('show', compact('receipe'));
@@ -64,33 +45,21 @@ class ReceipeController extends Controller
      */
     public function edit(Receipe $receipe)
     {
-        return view('edit', compact('receipe'));
+        $categories = Category::all();
+        return view('edit', compact('categories', 'receipe'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Receipe  $receipe
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Receipe $receipe)
     {
         $receipe->update(request()->validate([
             'name' => 'required',
             'ingredients' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
         ]));
 
         return redirect('/receipe/'.$receipe->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Receipe  $receipe
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Receipe $receipe)
     {
         $receipe->delete();
