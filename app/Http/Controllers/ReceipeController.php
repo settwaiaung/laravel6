@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class ReceipeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $receipes = Receipe::latest()->get();
+        $receipes = Receipe::where('author_id', auth()->id())->latest()->get();
         return view('receipe', compact('receipes'));
     }
 
@@ -22,18 +27,18 @@ class ReceipeController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
         Receipe::create(request()->validate([
             'name' => 'required',
             'ingredients' => 'required',
             'category_id' => 'required',
-        ]));
+        ])+['author_id' => auth()->id()]);
 
         return redirect('receipe');
     }
 
     public function show(Receipe $receipe)
     {
+        $this->authorize('view', $receipe);
         return view('show', compact('receipe'));
     }
 
@@ -45,6 +50,7 @@ class ReceipeController extends Controller
      */
     public function edit(Receipe $receipe)
     {
+        $this->authorize('view', $receipe);
         $categories = Category::all();
         return view('edit', compact('categories', 'receipe'));
     }

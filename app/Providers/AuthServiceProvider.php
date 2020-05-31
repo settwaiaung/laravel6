@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Receipe' => 'App\Policies\ReceipePolicy',
     ];
 
     /**
@@ -24,7 +24,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        
+        Gate::before(function($user){
+            return $user->id == 2;
+        });
     }
 }
