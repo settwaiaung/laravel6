@@ -33,7 +33,7 @@ class ReceipeController extends Controller
             'category_id' => 'required',
         ])+['author_id' => auth()->id()]);
 
-        return redirect('receipe');
+        return redirect('receipe')->with('status', 'A new receipe is successfully created!');
     }
 
     public function show(Receipe $receipe)
@@ -42,12 +42,6 @@ class ReceipeController extends Controller
         return view('show', compact('receipe'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Receipe  $receipe
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Receipe $receipe)
     {
         $this->authorize('view', $receipe);

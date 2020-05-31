@@ -5,6 +5,14 @@
     <h1 class="text-center">Receipe Page</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{session('status')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             @foreach ($receipes as $receipe)
             <div class="card">
                 <div class="card-header d-flex justify-content-between px-2 py-1">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Test;
 use App\Receipe;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(auth()->check())
+        {
+            return redirect('receipe');
+        }
+
         return view('welcome');
     }
 }
