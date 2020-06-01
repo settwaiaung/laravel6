@@ -14,7 +14,7 @@ class SimpleProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('Test', function(){
-            return new \App\Test;
+            return new \App\Test(config('mymail.test.key'));
         });
     }
 

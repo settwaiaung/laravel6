@@ -13,12 +13,12 @@
 
 Auth::routes();
 
-Route::get('/', function(){
-    return dd(app('Test'));
-});
+// Route::get('/', function(){
+//     return dd(app('Test'));
+// });
 
-// Route::get('/', 'HomeController@index');
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('receipe', 'ReceipeController');
 

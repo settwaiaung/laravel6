@@ -4,9 +4,9 @@ namespace App;
 
 class Test 
 {
-    public $data = "Something is happening right now";
+    public $data;
 
-    public function __contract($data)
+    public function __construct($data)
     {
         $this->data = $data;
     }

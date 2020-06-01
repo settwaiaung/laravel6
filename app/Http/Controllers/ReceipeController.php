@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Receipe;
 use App\Category;
+use App\Mail\ReceipeStored;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class ReceipeController extends Controller
 {
@@ -15,6 +18,7 @@ class ReceipeController extends Controller
 
     public function index()
     {
+        //dd(config('app.name'));
         $receipes = Receipe::where('author_id', auth()->id())->latest()->get();
         return view('receipe', compact('receipes'));
     }
@@ -27,7 +31,7 @@ class ReceipeController extends Controller
 
     public function store(Request $request)
     {
-        Receipe::create(request()->validate([
+        $receipe = Receipe::create(request()->validate([
             'name' => 'required',
             'ingredients' => 'required',
             'category_id' => 'required',
@@ -62,6 +66,7 @@ class ReceipeController extends Controller
 
     public function destroy(Receipe $receipe)
     {
+
         $receipe->delete();
         return redirect('/receipe');
     }
