@@ -13,12 +13,17 @@
 
 Auth::routes();
 
-// Route::get('/', function(){
-//     return dd(app('Test'));
-// });
-
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/public/receipe/{receipe}', 'HomeController@show');
 
+
+Route::get('/receipe/download', 'ReceipeController@export');
 Route::resource('receipe', 'ReceipeController');
+
+
+Route::resource('category', 'CategoryController');
+
+Route::get('dashboard', 'DashboardController@dashboard');
+
+
 

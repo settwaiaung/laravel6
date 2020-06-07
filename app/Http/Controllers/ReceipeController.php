@@ -7,8 +7,10 @@ use App\Receipe;
 use App\Category;
 use App\Mail\ReceipeStored;
 use Illuminate\Http\Request;
+use App\Exports\ReceipeExport;
 use App\Events\ReceipeStoredEvent;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\ReceipeStoredNotification;
 use App\Notifications\ReceipeDeletedNotification;
 
@@ -24,13 +26,13 @@ class ReceipeController extends Controller
     {
         $receipes = Receipe::where('author_id', auth()->id())->latest()->get();
         
-        return view('receipe', compact('receipes'));
+        return view('admin.receipe.index', compact('receipes'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('create', compact('categories'));
+        return view('admin.receipe.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -60,7 +62,7 @@ class ReceipeController extends Controller
     {
         $this->authorize('view', $receipe);
         $categories = Category::all();
-        return view('edit', compact('categories', 'receipe'));
+        return view('admin.receipe.edit', compact('categories', 'receipe'));
     }
 
     public function update(Request $request, Receipe $receipe)
@@ -83,6 +85,12 @@ class ReceipeController extends Controller
         
         $user->notify(new ReceipeDeletedNotification);
 
+        return redirect('/receipe');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ReceipeExport, 'receipes.xlsx');
         return redirect('/receipe');
     }
 }

@@ -26,6 +26,13 @@ class HomeController extends Controller
             return redirect('receipe');
         }
 
-        return view('welcome');
+        $receipes = Receipe::latest()->paginate(9);
+
+        return view('public.receipe.index', compact('receipes'));
+    }
+
+    public function show(Receipe $receipe)
+    {
+        return view('public.receipe.show', compact('receipe'));
     }
 }

@@ -14,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -24,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -35,7 +37,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Category::create(request()->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]));
+
+        return redirect('/category')->with('status', 'A new category is successfully created!');;
     }
 
     /**
@@ -56,8 +64,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $category)
-    {
-        //
+    {        
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -69,7 +77,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update(request()->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]));
+
+        return redirect('/category');
     }
 
     /**
@@ -80,6 +93,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        //$category->delete();
+        return redirect('/category');
     }
 }
