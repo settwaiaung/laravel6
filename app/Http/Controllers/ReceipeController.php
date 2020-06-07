@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Receipe;
 use App\Category;
 use App\Mail\ReceipeStored;
 use Illuminate\Http\Request;
+use App\Events\ReceipeStoredEvent;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\ReceipeStoredNotification;
+use App\Notifications\ReceipeDeletedNotification;
 
 
 class ReceipeController extends Controller
@@ -18,8 +22,8 @@ class ReceipeController extends Controller
 
     public function index()
     {
-        //dd(config('app.name'));
         $receipes = Receipe::where('author_id', auth()->id())->latest()->get();
+        
         return view('receipe', compact('receipes'));
     }
 
@@ -36,6 +40,12 @@ class ReceipeController extends Controller
             'ingredients' => 'required',
             'category_id' => 'required',
         ])+['author_id' => auth()->id()]);
+
+        $user = User::find(auth()->id());
+        
+        $user->notify(new ReceipeStoredNotification);
+
+        //event(new ReceipeStoredEvent($receipe));
 
         return redirect('receipe')->with('status', 'A new receipe is successfully created!');
     }
@@ -68,6 +78,11 @@ class ReceipeController extends Controller
     {
 
         $receipe->delete();
+
+        $user = User::find(auth()->id());
+        
+        $user->notify(new ReceipeDeletedNotification);
+
         return redirect('/receipe');
     }
 }
