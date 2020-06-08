@@ -29,6 +29,7 @@
                 <th>Name</th>
                 <th>Ingredients</th>
                 <th>Category</th>
+                <th>Image</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
@@ -41,6 +42,7 @@
                 <td>{{$receipe->name}}</td>
                 <td>{{$receipe->ingredients}}</td>
                 <td>{{$receipe->category->name}}</td>
+                <td><img src="{{asset('/images')."/".$receipe->image}}" alt="{{$receipe->image}}" class="img-fluid" width='100px' height='auto'></td>
                 <td>{{$receipe->created_at->diffForHumans()}}</td>
                 <td>{{$receipe->updated_at->diffForHumans()}}</td>
                 <td>

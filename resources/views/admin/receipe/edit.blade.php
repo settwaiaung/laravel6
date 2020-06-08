@@ -5,7 +5,7 @@
     <h1 class="text-center">Edit Receipe</h1>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="POST" action="/receipe/{{$receipe->id}}">
+            <form method="POST" action="/receipe/{{$receipe->id}}" enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="form-group">
@@ -40,6 +40,11 @@
                         {{ $message }}
                     </div>
                     @enderror 
+                </div>
+                <p>Image</p>
+                <div class="form-group mb-2 custom-file">
+                    <input type="file" class="custom-file-input" id="image"  name='image' accept="image/png, image/jpeg">
+                    <label class="custom-file-label" for="image">Choose file</label>
                 </div>   
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

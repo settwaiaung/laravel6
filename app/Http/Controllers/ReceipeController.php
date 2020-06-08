@@ -9,6 +9,7 @@ use App\Mail\ReceipeStored;
 use Illuminate\Http\Request;
 use App\Exports\ReceipeExport;
 use App\Events\ReceipeStoredEvent;
+use App\Http\Requests\StoreReceipe;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\ReceipeStoredNotification;
@@ -35,19 +36,21 @@ class ReceipeController extends Controller
         return view('admin.receipe.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(StoreReceipe $request)
     {
-        $receipe = Receipe::create(request()->validate([
-            'name' => 'required',
-            'ingredients' => 'required',
-            'category_id' => 'required',
-        ])+['author_id' => auth()->id()]);
-
-        $user = User::find(auth()->id());
+        $receipe = $request->validated();
         
-        $user->notify(new ReceipeStoredNotification);
+        $imageName = date('YmdHis').".".request()->image->getClientOriginalExtension();
+        
+        request()->image->move(public_path('images'), $imageName);
 
-        //event(new ReceipeStoredEvent($receipe));
+        $receipe['image'] = $imageName;
+        
+        Receipe::create($receipe+['author_id' => auth()->id(), 'image' => $imageName]);
+
+        //$user = User::find(auth()->id());
+        
+        //$user->notify(new ReceipeStoredNotification);
 
         return redirect('receipe')->with('status', 'A new receipe is successfully created!');
     }
@@ -67,13 +70,34 @@ class ReceipeController extends Controller
 
     public function update(Request $request, Receipe $receipe)
     {
-        $receipe->update(request()->validate([
-            'name' => 'required',
-            'ingredients' => 'required',
-            'category_id' => 'required',
-        ]));
+        if(isset(request()->image))
+        {
+            $valudated_receipe = request()->validate([
+                'name' => 'required',
+                'ingredients' => 'required',
+                'category_id' => 'required',  
+            ]);
 
-        return redirect('/receipe/'.$receipe->id);
+            request()->validate([
+                'image' => 'required|image', 
+            ]);
+            
+            $imageName = date('YmdHis').".".request()->image->getClientOriginalExtension();
+            
+            request()->image->move(public_path('images'), $imageName);
+
+            $receipe->update($valudated_receipe+['image' => $imageName]);
+        }
+        else 
+        {
+            $receipe->update(request()->validate([
+                'name' => 'required',
+                'ingredients' => 'required',
+                'category_id' => 'required',
+            ]));
+        }
+        
+        return redirect('/receipe')->with('status', 'The receipe is successfully edited!');
     }
 
     public function destroy(Receipe $receipe)

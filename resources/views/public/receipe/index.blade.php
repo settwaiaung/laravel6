@@ -10,6 +10,7 @@
                     <div class="card mb-4 box-shadow">
                         <div class="card-body">
                             <h5 class="card-title"><a href="/public/receipe/{{$receipe->id}}">{{$receipe->name}}</a></h5>
+                            <img src="{{asset('/images')."/".$receipe->image}}" alt="{{$receipe->image}}" class="img-fluid" width='auto' height='225px'>
                             <p class="card-text">Ingredients: {{$receipe->ingredients}}</p>
                             <p class="card-text">Category: {{$receipe->category->name}}</p>
                             <div class="d-flex justify-content-between align-items-center">
